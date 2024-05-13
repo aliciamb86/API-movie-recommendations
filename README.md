@@ -25,7 +25,7 @@ Este proyecto es una API desarrollada en FastAPI que proporciona recomendaciones
 1. Descarga la imagen de Docker desde Docker Hub:
 
    ```bash
-   docker pull tu_usuario/fastapi-cineapi:latest
+   docker pull alioli86/api_cine:latest
 
 
 2. Ejecuta el contenedor Docker:
