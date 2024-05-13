@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineAPI: Tu Fuente de Información Cinematográfica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center; /* Centra el texto horizontalmente */
+            background-color: #eaf6ff; /* Color de fondo */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* Centra el contenido horizontalmente */
+            align-items: center; /* Centra el contenido verticalmente */
+            height: 100vh; /* Tamaño de la ventana de visualización */
+        }
+        #container {
+            background-color: #c3e6fe; /* Color del contenedor */
+            padding: 20px;
+            border-radius: 10px; /* Borde redondeado */
+            width: 80%; /* Ancho del contenedor */
+            max-width: 800px; /* Ancho máximo del contenedor */
+        }
+        h1 {
+            color: #004d99; /* Color del texto del título */
+            margin-top: 20px; /* Espacio superior */
+        }
+        #formulario_pregunta {
+            margin-top: 20px; /* Espacio superior para separar del título */
+        }
+        #pregunta_usuario {
+            width: calc(100% - 20px); /* Ancho de la caja de texto */
+            padding: 10px; /* Espaciado interno */
+            margin-bottom: 10px; /* Espacio inferior */
+            border-radius: 5px; /* Borde redondeado */
+            border: 1px solid #004d99; /* Borde */
+            background-color: #fff; /* Color de fondo de la caja de texto */
+            color: #004d99; /* Color del texto */
+            font-size: 16px; /* Tamaño de fuente */
+        }
+        #respuesta {
+            margin-top: 20px; /* Espacio superior para separar del formulario */
+            color: #004d99; /* Color del texto de la respuesta */
+        }
+        #historial-container {
+            margin-top: 20px; /* Espacio superior para separar del botón */
+            text-align: left; /* Alinea el contenido a la izquierda */
+        }
+        /* Estilos para los botones */
+        button[type="submit"], button#ingesta-btn, button#historial-btn {
+            background-color: #66ccff; /* Color de fondo del botón */
+            color: #004d99; /* Color del texto del botón */
+            padding: 10px 20px; /* Espaciado interno */
+            border: none; /* Quita el borde */
+            border-radius: 5px; /* Borde redondeado */
+            cursor: pointer; /* Cambia el cursor al pasar el ratón */
+            transition: background-color 0.3s; /* Efecto de transición */
+            margin-top: 20px; /* Espacio superior */
+            width: 100%; /* Ancho del botón */
+            display: block; /* Hace que el botón ocupe todo el ancho disponible */
+        }
+        button[type="submit"]:hover, button#ingesta-btn:hover, button#historial-btn:hover {
+            background-color: #33adff; /* Cambia el color de fondo al pasar el ratón */
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>¡Bienvenido a CineAPI: Tu Fuente de Información Cinematográfica!</h1>
+        <form id="formulario_pregunta">
+            <label for="pregunta_usuario">Introduce tu pregunta cinéfila aquí:</label><br>
+            <input type="text" id="pregunta_usuario" name="pregunta_usuario"><br>
+            <button type="submit">Obtener respuesta a tu pregunta</button>
+        </form>
+        <div id="respuesta"></div>
+
+        <!-- Botón "Ingesta de Datos" -->
+        <button id="ingesta-btn" onclick="ingestarDatos()">Guardar record</button>
+
+        <!-- Botón "Mostrar Historial" -->
+        <button id="historial-btn" onclick="mostrarHistorial()">Mostrar Historial</button>
+
+        <!-- Contenedor para mostrar el historial -->
+        <div id="historial-container"></div>
+    </div>
+
+    <script>
+        const formulario = document.getElementById("formulario_pregunta");
+        formulario.addEventListener("submit", async function(event) {
+            event.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
+
+            const pregunta = document.getElementById("pregunta_usuario").value;
+            const respuestaDiv = document.getElementById("respuesta");
+
+            const response = await fetch(`/pedir_recomendacion?pregunta_usuario=${pregunta}`);
+            const data = await response.text();
+
+            // Reemplazar los caracteres \n con saltos de línea reales
+            const respuestaFormateada = data.replace(/\\n/g, '\n');
+
+            respuestaDiv.innerText = respuestaFormateada;
+        });
+
+        // Función para la ingesta de datos
+        async function ingestarDatos() {
+            const pregunta = document.getElementById("pregunta_usuario").value;
+            const respuesta = document.getElementById("respuesta").innerText;
+
+            const response = await fetch('/ingesta_datos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ pregunta_usuario: pregunta, respuesta: respuesta })
+            });
+
+            if (response.ok) {
+                alert('Datos ingresados correctamente en la base de datos.');
+            } else {
+                alert('Hubo un error al ingresar los datos en la base de datos.');
+            }
+        }
+
+        async function mostrarHistorial() {
+            const historialContainer = document.getElementById("historial-container");
+
+            // Realizar una solicitud GET a la ruta /historial de tu API
+            const response = await fetch('/historial');
+            const data = await response.text();
+
+            // Mostrar el historial en el contenedor
+            historialContainer.innerHTML = data;
+        }
+    </script>
+</body>
+</html>
