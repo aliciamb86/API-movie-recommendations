@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, Form, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, Response
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import os
@@ -54,7 +54,6 @@ async def insert(data: dict, background_tasks: BackgroundTasks):
     pregunta = data.get("pregunta_usuario")
     respuesta = data.get("respuesta")
 
-    # Realizar tareas en segundo plano, como guardar en la base de datos
     background_tasks.add_task(save_to_database, pregunta, respuesta)
 
     return {"message": "Data received and will be saved."}
@@ -84,10 +83,7 @@ async def save_to_database(pregunta: str, respuesta: str):
     except Exception as e:
         print(f"Error al guardar datos en la base de datos: {e}")
 
-
-# Importa el módulo Response desde fastapi.responses
-from fastapi.responses import Response
-
+        
 @app.get('/historial', response_class=HTMLResponse)
 async def historial():
     try:
