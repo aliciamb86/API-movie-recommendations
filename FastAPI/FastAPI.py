@@ -88,6 +88,24 @@ async def save_to_database(pregunta: str, respuesta: str):
 # Importa el módulo Response desde fastapi.responses
 from fastapi.responses import Response
 
+@app.get('/historial', response_class=HTMLResponse)
+async def historial():
+    try:
+        async with asyncpg.create_pool(DATABASE_URL) as pool:
+            async with pool.acquire() as connection:
+                # Consultar la base de datos para obtener el historial
+                records = await connection.fetch("SELECT * FROM cinema_data")
+                
+                # Construir una tabla HTML con los datos del historial
+                historial_html = "<h2>Historial</h2><table border='1'><tr><th>ID</th><th>Pregunta</th><th>Respuesta</th></tr>"
+                for record in records:
+                    historial_html += f"<tr><td>{record['id']}</td><td>{record['pregunta']}</td><td>{record['respuesta']}</td></tr>"
+                historial_html += "</table>"
+                
+                return historial_html
+    except Exception as e:
+        print(f"Error al obtener el historial desde la base de datos: {e}")
+        return "Error al obtener el historial desde la base de datos"
 
 if __name__ == "__main__":
     import uvicorn
