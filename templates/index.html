@@ -11,10 +11,13 @@
             background-color: #eaf6ff; /* Color de fondo */
             margin: 0;
             padding: 0;
+        }
+        #main-container {
+            min-height: 100vh; /* Altura mínima de la ventana de visualización */
             display: flex;
-            justify-content: center; /* Centra el contenido horizontalmente */
+            flex-direction: column;
             align-items: center; /* Centra el contenido verticalmente */
-            height: 100vh; /* Tamaño de la ventana de visualización */
+            overflow-y: auto; /* Desbordamiento vertical */
         }
         #container {
             background-color: #c3e6fe; /* Color del contenedor */
@@ -22,6 +25,7 @@
             border-radius: 10px; /* Borde redondeado */
             width: 80%; /* Ancho del contenedor */
             max-width: 800px; /* Ancho máximo del contenedor */
+            margin-top: 20px; /* Espacio superior */
         }
         h1 {
             color: #004d99; /* Color del texto del título */
@@ -47,6 +51,8 @@
         #historial-container {
             margin-top: 20px; /* Espacio superior para separar del botón */
             text-align: left; /* Alinea el contenido a la izquierda */
+            max-height: 50vh; /* Altura máxima del contenedor del historial */
+            overflow-y: auto; /* Permitir el desplazamiento vertical */
         }
         /* Estilos para los botones */
         button[type="submit"], button#ingesta-btn, button#historial-btn {
@@ -67,23 +73,26 @@
     </style>
 </head>
 <body>
-    <div id="container">
+    <div id="main-container">
         <h1>¡Bienvenido a CineAPI: Tu Fuente de Información Cinematográfica!</h1>
-        <form id="formulario_pregunta">
-            <label for="pregunta_usuario">Introduce tu pregunta cinéfila aquí:</label><br>
-            <input type="text" id="pregunta_usuario" name="pregunta_usuario"><br>
-            <button type="submit">Obtener respuesta a tu pregunta</button>
-        </form>
-        <div id="respuesta"></div>
+        <img src="templates/img_cine.jpg" alt="Bienvenidos">
+        <div id="container">
+            <form id="formulario_pregunta">
+                <label for="pregunta_usuario">Introduce tu pregunta cinéfila aquí:</label><br>
+                <input type="text" id="pregunta_usuario" name="pregunta_usuario"><br>
+                <button type="submit">Obtener respuesta a tu pregunta</button>
+            </form>
+            <div id="respuesta"></div>
 
-        <!-- Botón "Ingesta de Datos" -->
-        <button id="ingesta-btn" onclick="ingestarDatos()">Guardar consulta</button>
+            <!-- Botón "Ingesta de Datos" -->
+            <button id="ingesta-btn" onclick="ingestarDatos()">Guardar consulta</button>
 
-        <!-- Botón "Mostrar Historial" -->
-        <button id="historial-btn" onclick="mostrarHistorial()">Mostrar Historial</button>
+            <!-- Botón "Mostrar Historial" -->
+            <button id="historial-btn" onclick="mostrarHistorial()">Mostrar Historial</button>
 
-        <!-- Contenedor para mostrar el historial -->
-        <div id="historial-container"></div>
+            <!-- Contenedor para mostrar el historial -->
+            <div id="historial-container"></div>
+        </div>
     </div>
 
     <script>
