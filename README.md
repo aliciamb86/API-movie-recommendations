@@ -17,6 +17,8 @@ Este proyecto es una API desarrollada en FastAPI que proporciona recomendaciones
 ### Requisitos
 
 - Docker instalado en tu sistema.
+- Una API key de OpenAI para utilizar el modelo de lenguaje. Puedes obtener una en [OpenAI](https://openai.com).
+- Una `DATABASE_URL` válida de Render.com o de tu propio servidor PostgreSQL.
 
 ### Instrucciones
 
@@ -25,12 +27,13 @@ Este proyecto es una API desarrollada en FastAPI que proporciona recomendaciones
    ```bash
    docker pull tu_usuario/fastapi-cineapi:latest
 
+
 2. Ejecuta el contenedor Docker:
 
 docker run -d --name cineapi -p 8000:8000 tu_usuario/fastapi-cineapi:latest
 
 
-3. Acced a la API desde tu navegador o herramienta de desarrollo de API, utilizando las siguientes rutas:
+3. Accede a la API desde tu navegador o herramienta de desarrollo de API, utilizando las siguientes rutas:
 
     Home: http://localhost:8000/
     Pedir Recomendación: http://localhost:8000/pedir_recomendacion?pregunta_usuario=Tu%20pregunta%20aquí
@@ -43,7 +46,6 @@ Contribuciones
 ¡Las contribuciones son bienvenidas! Si quieres mejorar esta API, no dudes en hacer un fork del repositorio, implementar tus cambios y enviar un pull request.
 Agradecimientos
 
-    Este proyecto utiliza la biblioteca FastAPI para crear la API web.
-    Se basa en modelos de lenguaje de OpenAI para generar recomendaciones.
-    Utiliza una base de datos PostgreSQL para almacenar el historial de consultas.
-
+Este proyecto utiliza la biblioteca FastAPI para crear la API web.
+Se basa en modelos de lenguaje de OpenAI para generar recomendaciones.
+Utiliza una base de datos PostgreSQL para almacenar el historial de consultas.
