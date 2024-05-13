@@ -30,7 +30,7 @@ Este proyecto es una API desarrollada en FastAPI que proporciona recomendaciones
 
 2. Ejecuta el contenedor Docker:
 
-docker run -d --name cineapi -p 8000:8000 tu_usuario/fastapi-cineapi:latest
+docker run -d --name cineapi -p 8000:8000 alioli86/api_cine:latest
 
 
 3. Accede a la API desde tu navegador o herramienta de desarrollo de API, utilizando las siguientes rutas:
